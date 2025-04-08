@@ -2,7 +2,7 @@
 
 
 ## 项目简介
-Tiny-Spring 是一个简化版的 Spring 框架，旨在帮助开发者深入理解 Spring 的核心原理和实现机制。本项目采用问题驱动的方式，通过实现核心功能模块，让学习者能够深入理解 Spring 的设计思想和实现原理。
+Tiny-Spring 是一个简化版的 Spring 框架，旨在深入理解 Spring 的核心原理和实现机制。本项目采用问题驱动的方式，通过实现核心功能模块，深入理解 Spring 的设计思想和实现原理。
 
 ## 核心功能
 Tiny-Spring实现了以下Spring核心功能：
@@ -19,6 +19,13 @@ Tiny-Spring实现了以下Spring核心功能：
 ---
 ## 模块解析
 
+### 关键技术决策
+```mermaid
+graph TD
+    A[依赖注入: 构造器注入优先，保证对象不可变状态] --> B[Bean作用域管理: ThreadLocal存储，支持Request/Session作用域]
+    B --> C[配置加载: 多格式兼容设计，支持XML/Annotation/YAML]
+    C --> D[事务管理: 连接点拦截器链，支持嵌套事务回滚]
+```
 ### IoC容器架构
 ```mermaid
 classDiagram
@@ -44,13 +51,6 @@ classDiagram
 2. 切面表达式解析使用ANTLR4
 3. 通知链执行通过责任链模式实现
 
-### 关键技术决策
-```mermaid
-graph TD
-    A[依赖注入: 构造器注入优先（保证对象不可变状态）] --> B[Bean作用域管理: ThreadLocal存储（支持Request/Session作用域）]
-    B --> C[配置加载: 多格式兼容设计（支持XML/Annotation/YAML）]
-    C --> D[事务管理: 连接点拦截器链（支持嵌套事务回滚）]
-```
 
 ### 性能优化记录
 Bean实例化优化
@@ -142,7 +142,7 @@ mvn clean install
 mvn test
 ```
 
-### 3.运行测试用例
+### 2.运行测试用例
 项目包含完整的测试用例，覆盖了框架的主要功能：
 - IoC容器测试
 - AOP功能测试
@@ -160,24 +160,6 @@ mvn test -Dtest=DefaultListableBeanFactoryTest
 mvn test -Dtest=DefaultListableBeanFactoryTest#testGetBean
 ```
 
-### 5. 开发建议
-- 建议使用IDE（如IntelliJ IDEA）导入项目
-- 确保已安装JDK 17及以上版本
-- 推荐使用Maven 3.8.1及以上版本
-- 运行测试前先执行`mvn clean install`
-
-
-## 如何贡献
-1. Fork 本仓库
-2. 创建新的分支 `git checkout -b feature/your-feature`
-3. 提交你的修改 `git commit -m 'Add some feature'`
-4. 推送到分支 `git push origin feature/your-feature`
-5. 创建 Pull Request
-
-## 问题反馈
-- 在GitHub Issues中提问
-- 通过Pull Request贡献内容
-- 查看文档中的常见问题解答
 
 ## 开源协议
 本项目采用 MIT 协议开源，详见 [LICENSE](LICENSE) 文件。 
