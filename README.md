@@ -1,7 +1,5 @@
 # Mini-Spring Framework
 
-![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![Coverage](https://img.shields.io/badge/coverage-80%25-green.svg)
 
 ## 项目简介
 Tiny-Spring 是一个简化版的 Spring 框架，旨在帮助开发者深入理解 Spring 的核心原理和实现机制。本项目采用问题驱动的方式，通过实现核心功能模块，让学习者能够深入理解 Spring 的设计思想和实现原理。
@@ -47,12 +45,12 @@ classDiagram
 3. 通知链执行通过责任链模式实现
 
 ### 关键技术决策
-| 技术点           | 方案选择             | 决策依据                       |
-|:----------------:|:-------------------:|:-----------------------------:|
-| 依赖注入         | 构造器注入优先       | 保证对象不可变状态            |
-| Bean作用域管理   | ThreadLocal存储      | 支持Request/Session作用域     |
-| 配置加载         | 多格式兼容设计       | 支持XML/Annotation/YAML       |
-| 事务管理         | 连接点拦截器链       | 支持嵌套事务回滚              |
+```mermaid
+graph TD
+    A[依赖注入: 构造器注入优先（保证对象不可变状态）] --> B[Bean作用域管理: ThreadLocal存储（支持Request/Session作用域）]
+    B --> C[配置加载: 多格式兼容设计（支持XML/Annotation/YAML）]
+    C --> D[事务管理: 连接点拦截器链（支持嵌套事务回滚）]
+```
 
 ### 性能优化记录
 Bean实例化优化
