@@ -127,10 +127,10 @@ src/main/java/com/minispring/
 ### 1. 获取代码
 ```bash
 # 克隆项目
-git clone https://github.com/youngyangyang04/mini-spring.git
+git clone https://github.com/Will-immiracle/Tiny-Spring.git
 
 # 进入项目目录
-cd mini-spring
+cd Tiny-Spring
 ```
 
 ### 2. 编译运行
