@@ -4,20 +4,68 @@
 ![Coverage](https://img.shields.io/badge/coverage-80%25-green.svg)
 
 ## 项目简介
-Mini-Spring 是一个简化版的 Spring 框架，旨在帮助开发者深入理解 Spring 的核心原理和实现机制。本项目采用问题驱动的方式，通过实现核心功能模块，让学习者能够深入理解 Spring 的设计思想和实现原理。
+Tiny-Spring 是一个简化版的 Spring 框架，旨在帮助开发者深入理解 Spring 的核心原理和实现机制。本项目采用问题驱动的方式，通过实现核心功能模块，让学习者能够深入理解 Spring 的设计思想和实现原理。
 
-## 学习路线图
+## 设计理念
+本框架采用分层架构设计，遵循以下核心原则：
+1. **控制反转**：通过三级缓存解决循环依赖
+2. **扩展性优先**：基于SPI机制实现组件扩展
+3. **性能优化**：使用CGLIB动态代理池技术
+4. **模块解耦**：核心模块间通过抽象接口通信
+
+---
+
+## 核心模块解析
+
+### IoC容器架构
 ```mermaid
-graph TD
-    A[第一部分: IoC基础] --> B[第二部分: IoC高级特性]
-    B --> C[第三部分: AOP和事务]
-    C --> D[第四部分: Web集成]
+classDiagram
+    class BeanFactory{
+        +getBean()
+        +containsBean()
+    }
+    class ApplicationContext{
+        +refresh()
+        +getEnvironment()
+    }
+    class BeanDefinition{
+        -beanClass
+        -propertyValues
+    }
+    BeanFactory <|-- ApplicationContext
+    BeanFactory *-- BeanDefinition
 ```
 
-## 学习建议
-1. 学习之前弄懂反射和动态代理
-3. 按照顺序阅读，每个章节都建立在前面章节的基础之上
-4. 先看星球文档，后面有时间再钻研代码
+### AOP实现机制
+
+1. **代理工厂采用策略模式（JDK/CGLIB动态代理）**
+2. **切面表达式解析使用ANTLR4**
+3. **通知链执行通过责任链模式实现**
+
+### 关键技术决策
+| 技术点           | 方案选择             | 决策依据                       |
+|:----------------:|:-------------------:|:-----------------------------:|
+| 依赖注入         | 构造器注入优先       | 保证对象不可变状态            |
+| Bean作用域管理   | ThreadLocal存储      | 支持Request/Session作用域     |
+| 配置加载         | 多格式兼容设计       | 支持XML/Annotation/YAML       |
+| 事务管理         | 连接点拦截器链       | 支持嵌套事务回滚              |
+
+### 性能优化记录
+Bean实例化优化
+```java
+// 基于原型模式的Bean缓存池
+public class BeanPool {
+    private static final Map<String, Queue<Object>> pool = new ConcurrentHashMap<>();
+    
+    public static Object borrowBean(String beanName) {
+        return pool.getOrDefault(beanName, new ConcurrentLinkedQueue<>()).poll();
+    }
+    
+    public static void returnBean(String beanName, Object bean) {
+        pool.computeIfAbsent(beanName, k -> new ConcurrentLinkedQueue<>()).offer(bean);
+    }
+}
+```
 
 ## 项目结构
 ````
